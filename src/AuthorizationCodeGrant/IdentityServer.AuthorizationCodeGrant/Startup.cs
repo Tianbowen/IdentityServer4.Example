@@ -21,7 +21,7 @@ namespace IdentityServer.AuthorizationCodeGrant
         public void ConfigureServices(IServiceCollection services)
         {
             // uncomment, if you want to add an MVC-based UI
-            //services.AddControllersWithViews();
+            services.AddControllersWithViews();
 
             var builder = services.AddIdentityServer()              
                 .AddInMemoryIdentityResources(Config.Ids)
@@ -41,17 +41,19 @@ namespace IdentityServer.AuthorizationCodeGrant
             }
 
             // uncomment if you want to add MVC
-            //app.UseStaticFiles();
-            //app.UseRouting();
+            app.UseStaticFiles();
+            app.UseRouting();
 
+            //自己添加的
             app.UseIdentityServer();
+            //end
 
             // uncomment, if you want to add MVC
-            //app.UseAuthorization();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapDefaultControllerRoute();
-            //});
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
         }
     }
 }

@@ -41,10 +41,10 @@ namespace IdentityServer.AuthorizationCodeGrant
 
             AllowedScopes=new List<string>{
                 IdentityServerConstants.StandardScopes.OpenId,
-                IdentityServerConstants.StandardScopes.Profile
-            }
-
-
+                IdentityServerConstants.StandardScopes.Profile,
+                "api1"
+            },
+            AllowOfflineAccess=true
                 }
             };
 
@@ -52,7 +52,7 @@ namespace IdentityServer.AuthorizationCodeGrant
         public static List<TestUser> Users =>
             new List<TestUser>
             {
-                new TestUser{SubjectId="1",Username="arwen",Password="arwen",Claims={ 
+                new TestUser{SubjectId="1",Username="arwen",Password="arwen",Claims={
                     new Claim(JwtClaimTypes.Name,"arwen xyz"),
                     new Claim(JwtClaimTypes.GivenName,"arwen"),
                     new Claim(JwtClaimTypes.FamilyName,"xyz"),
@@ -71,7 +71,7 @@ namespace IdentityServer.AuthorizationCodeGrant
                     new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
                     new Claim("location", "somewhere")
                     }
-                
+
                 }
 
             };
