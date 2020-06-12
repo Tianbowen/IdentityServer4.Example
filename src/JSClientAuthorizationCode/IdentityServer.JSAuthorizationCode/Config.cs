@@ -6,6 +6,9 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.CookiePolicy;
 using System.Collections.Generic;
+using IdentityServer4.Test;
+using System.Security.Claims;
+using IdentityModel;
 
 namespace IdentityServer.JSAuthorizationCode
 {
@@ -14,7 +17,8 @@ namespace IdentityServer.JSAuthorizationCode
         public static IEnumerable<IdentityResource> Ids =>
             new IdentityResource[]
             {
-                new IdentityResources.OpenId()
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile()
             };
 
         public static IEnumerable<ApiResource> Apis =>
@@ -29,7 +33,7 @@ namespace IdentityServer.JSAuthorizationCode
                 new Client
                 {
                     ClientId="js",
-                    ClientName="java script client",
+                    ClientName="javascript client",
                     AllowedGrantTypes=GrantTypes.Code,
                     RequirePkce=true,
                     RequireClientSecret=false,
@@ -46,6 +50,34 @@ namespace IdentityServer.JSAuthorizationCode
                     }
                 }
 
+            };
+
+        public static List<TestUser> Users =>
+            new List<TestUser>{
+                new TestUser{SubjectId="1",Username="arwen",Password="arwen",Claims={
+                    new Claim(JwtClaimTypes.Name,"arwen"),
+                    new Claim(JwtClaimTypes.Name,"arwen xyz"),
+                    new Claim(JwtClaimTypes.GivenName,"arwen"),
+                    new Claim(JwtClaimTypes.FamilyName,"xyz"),
+                    new Claim(JwtClaimTypes.Email,"123456@qq.com"),
+                    new Claim(JwtClaimTypes.EmailVerified,"true",ClaimValueTypes.Boolean),
+                    new Claim(JwtClaimTypes.WebSite,"http://arwen.xyz"),
+                    new Claim(JwtClaimTypes.Address,@"{'street_address':'One Way','country':'ShenZhen'}",IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
+
+
+                }},
+                  new TestUser{ SubjectId="2",Username="bob",Password="bob",Claims={
+                    new Claim(JwtClaimTypes.Name, "bob xyz"),
+                    new Claim(JwtClaimTypes.GivenName, "bob"),
+                    new Claim(JwtClaimTypes.FamilyName, "xyz"),
+                    new Claim(JwtClaimTypes.Email, "456789@email.com"),
+                    new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                    new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
+                    new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
+                    new Claim("location", "somewhere")
+                    }
+
+                }
             };
 
     }
